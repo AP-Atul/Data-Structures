@@ -1,0 +1,165 @@
+Write C++ program for storing binary number using doubly linked lists. Write functions a) to compute 1‘s and 2‘s complement b) add two binary numbers
+ 
+Program:
+ 
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct dnode
+{
+    int data;
+    struct dnode *next;
+    struct dnode *prev;
+}dnode;
+
+dnode *create();
+dnode *add(dnode *head1, dnode *head2);
+void print(dnode *head);
+void onescomp(dnode *head);
+void twoscomp(dnode *head);
+
+int main()
+{
+    dnode *head1,*head2,*head3;
+    head1=create();
+    head2=create();
+    head3=add(head1,head2);
+    printf("\n First binary number :");
+    print(head1);
+    printf("\n Second binary number :");
+    print(head2);
+    printf("\n Addition of two binary numbers :");
+    print(head3);
+    printf("\n 1's complement of first number:");
+    onescomp(head1);
+    print(head1);
+    printf("\n 2's complement of Second number:");
+    twoscomp(head2);
+    print(head2);
+    return 0;
+}
+dnode *create()
+{
+    dnode *p,*head;
+    char x;
+    head=NULL;
+    printf("\n Enter a binary number =");
+    while((x=getchar())!='\n')
+    {
+        if(head==NULL)
+        {
+            head=p=(dnode *)malloc(sizeof(dnode));
+            p->next=p->prev=NULL;
+
+        }
+        else
+        {
+            p->next=(dnode *)malloc(sizeof(dnode));
+            p->next->prev=p;
+            p=p->next;
+            p->next=NULL;
+        }
+        if(x=='1')
+            p->data=1;
+        else
+            p->data=0;
+    }
+    return head;
+
+}
+dnode *add(dnode *head1,dnode *head2)
+{
+    dnode *head,*p;
+    int x,y,z,carry;
+    carry=0;
+    head=NULL;
+    if(head1!=NULL)
+        while(head1->next!=NULL)
+            head1=head1->next;
+    if(head2!=NULL)
+        while(head2->next!=NULL)
+            head2=head2->next;
+    while(head1 !=NULL || head2 !=NULL)
+    {
+        x=y=0;
+        if(head1!=NULL)
+        {
+            x=head1->data;
+            head1=head1->prev;
+
+        }
+        if(head2 !=NULL)
+        {
+            y=head2->data;
+            head2=head2->prev;
+        }
+        z=(x+y+carry)%2;
+        carry=(x+y+carry)/2;
+
+        if(head==NULL)
+        {
+            head=(dnode*)malloc(sizeof(dnode));
+            head->next=head->prev=NULL;
+
+        }
+        else
+        {
+            head->prev=(dnode*)malloc(sizeof(dnode));
+            head->prev->next=head;
+            head=head->prev;
+            head->prev=NULL;
+        }
+        head->data=z;
+    }
+    if(carry==1)
+    {
+        head->prev=(dnode*)malloc(sizeof(dnode));
+        head->prev->next=head;
+        head=head->prev;
+        head->prev=NULL;
+        head->data=carry;
+
+    }
+    return head;
+}
+void print(dnode *head)
+{
+    while(head!=NULL)
+    {
+        printf("%d",head->data);
+        head=head->next;
+    }
+}
+void onescomp(dnode *head)
+{
+    dnode *p;
+    p=head;
+    while(p!=NULL)
+    {
+        if(p->data==0)
+            p->data=1;
+        else
+            p->data=0;
+        p=p->next;
+    }
+}
+void twoscomp(dnode *head)
+{
+    dnode *p;
+    p=head;
+    while(p->next!=NULL)
+        p=p->next;
+    while(p!=NULL && p->data==0)
+        p=p->prev;
+    if(p!=NULL)
+        p=p->prev;
+    while(p!=NULL)
+    {
+        if(p->data==0)
+            p->data=1;
+        else
+            p->data=0;
+        p=p->prev;
+    }
+
+} 

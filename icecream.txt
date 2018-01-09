@@ -1,0 +1,254 @@
+
+#include<stdio.h>
+#include<stdlib.h>
+
+
+
+typedef struct node
+{
+    int data;
+    struct node *next;
+}node;
+
+
+
+node *createnode()
+{
+    int n,i;
+    node *p,*head,*t;
+    head=NULL;
+    printf("enter the no of students");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        p=(node*)malloc(sizeof(node));
+        printf("enter the students");
+        scanf("%d",&(p->data));
+        p->next=NULL;
+        if(head==NULL)
+            head=p;
+        else
+        {
+            t=head;
+            while(t->next!=NULL)
+                t=t->next;
+            t->next=p;
+        }
+    }
+    return head;
+}
+
+
+void print(node *head)
+{
+    node *p;
+    int cnt=0;
+    p=head;
+    while(p!=NULL)
+    {
+        printf("\t %d",p->data);
+        p=p->next;
+
+
+    }cnt++;
+    printf("total no of students=%d",cnt);
+
+}
+
+
+int uni(node *head,node *head1)
+{
+    node *p,*q;
+    int found=0,count=0;
+    p=head;
+    while(p!=NULL)
+    {
+        printf("\t %d",p->data);
+        p=p->next;
+    };
+
+
+    for(q=head1;q!=NULL;q=q->next)
+    {
+        found=0;
+        for(p=head;p!=NULL;p=p->next)
+        {
+            if(q->data==p->data)
+            {
+                found=1;
+                break;
+            }
+        }
+
+        if(found!=1)
+        {
+            printf("\t %d",q->data);
+        }
+        count++;
+    }
+    return count;
+}
+
+
+
+
+void inter(node *head1,node *head2)
+{
+    node *p,*q;
+    int found=0;
+
+    for(q=head2;q!=NULL;q=q->next)
+    {
+        found=0;
+        for(p=head1;p!=NULL;p=p->next)
+        {
+            if(q->data==p->data)
+            {
+                found=1;
+                break;
+            }
+        }
+        if(found==1)
+        {
+            printf("\t %d",q->data);
+        }
+    }
+}
+
+
+
+void sub1(node *head1,node *head2)
+{
+    node *p,*q;
+    int found=0;
+
+    for(p=head1;p!=NULL;p=p->next)
+    {
+        found=0;
+                for(q=head2;q!=NULL;q=q->next)
+                {
+                    if(p->data==q->data)
+                    {
+                        found=1;
+                        break;
+                    }
+                }
+
+
+        if(found!=1)
+        {
+            printf("\t %d",p->data);
+
+        }
+    }
+}
+
+
+void sub2(node *head1,node *head2)
+{
+    node *p,*q;
+    int found=0;
+
+    for(q=head2;q!=NULL;q=q->next)
+    {
+        found=0;
+                for(p=head1;p!=NULL;p=p->next)
+                {
+                    if(p->data==q->data)
+                    {
+                        found=1;
+                        break;
+                    }
+                }
+
+
+        if(found!=1)
+        {
+            printf("\t %d",q->data);
+
+        }
+    }
+}
+
+
+
+
+
+
+int main()
+{
+    node *head,*head1;
+    int ch=0,m,count;
+    head=head1=NULL;
+
+    printf("enter the no of students");
+    scanf("%d",&m);
+    head=NULL;
+
+
+    while(ch!=8)
+    {
+        printf("\n *************sets using singly linked list*************************");
+        printf("\n 1]create");
+        printf("\n 2]print");
+        printf("\n 3]students like either vanilla or butterscotch");
+        printf("\n 4]students like both vanilla & butterscotch");
+        printf("\n 5]students like vanilla only");
+        printf("\n 6]students like only butterscotch");
+        printf("\n 7]students like neither vanilla nor butterscotch");
+
+
+        printf("enter your choice");
+        scanf("%d",&ch);
+
+        switch(ch)
+        {
+
+        case 1:
+        printf("students like vanilla");
+        head=createnode();
+        printf("students like butterscotch");
+        head1=createnode();
+        break;
+
+
+        case 2:
+            printf("students like vanilla");
+                    print(head);
+                    printf("students like butter scotch");
+                    print(head1);
+                    break;
+
+        case 3:
+            printf("\n students like ither vanilla or butterscotch");
+            count=uni(head,head1);
+            break;
+
+
+        case 4:
+            printf("\n students like both vanilla & butterscotch");
+            inter(head,head1);
+            break;
+
+
+
+        case 5:
+            printf("\n students like vanilla only");
+            sub1(head,head1);
+            break;
+
+
+        case 6:
+                    printf("\n students like butterscotch only");
+                    sub2(head,head1);
+                    break;
+
+        case 7:
+            printf("\n students like neither vanilla nor butterscotch=%d",m-count);
+
+            break;
+
+        }
+    }
+    return 0;
+}

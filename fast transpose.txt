@@ -1,0 +1,390 @@
+
+#include<iostream>
+using namespace std;
+class sparse
+{
+public:
+	int a[30][30],b[30][30],t[30][30],c[30][30],d[30][30],e[30][30],al[30][3];
+	int n,m,g,h,q,y;
+	int i,j,l,p,f,x,z,n1,z1;
+//note the 2d normanl matrix are a and c while the b and d are their sparse matrix respectively.
+	void intake()
+	{
+	cout<<"enter the rows of the 2-dimentional matrix "<<endl;
+	cin>>n;
+	cout<<"enter the column of the 2-dimentional matrix "<<endl;
+		cin>>m;
+		for(i=0;i<n;i++)
+		{
+			cout<<"enter the element of "<<i<<"th row:"<<endl;
+			for(j=0;j<m;j++)
+			{
+				cin>>a[i][j];
+			}
+		}
+		cout<<"enter the rows of the  second 2-dimentional matrix "<<endl;
+			cin>>f;
+			cout<<"enter the column of the second 2-dimentional matrix "<<endl;
+				cin>>g;
+				for(i=0;i<f;i++)
+				{
+					cout<<"enter the element of "<<i<<"th row:"<<endl;
+					for(j=0;j<g;j++)
+					{
+						cin>>c[i][j];
+					}
+				}
+
+}
+	void convet()
+	{
+
+		p=1;
+		b[0][0]=n;
+		b[0][1]=m;
+
+		for(i=0;i<n;i++)
+				{
+			for(j=0;j<m;j++)
+					{
+						if(a[i][j]!=0)
+						{
+							b[p][0]=i;
+							b[p][1]=j;
+							b[p][2]=a[i][j];
+							p++;
+
+						}
+					}
+
+				}
+		b[0][2]=p-1;
+
+
+		q=1;
+		d[0][0]=f;
+		d[0][1]=g;
+
+		for(i=0;i<f;i++)
+				{
+			for(j=0;j<g;j++)
+					{
+						if(c[i][j]!=0)
+						{
+							d[q][0]=i;
+							d[q][1]=j;
+							d[q][2]=c[i][j];
+							q++;
+
+						}
+					}
+
+				}
+		d[0][2]=q-1;
+
+	}
+	void dis_spa()
+	{
+		for(i=0;i<p;i++)
+				{cout<<endl;
+
+					for(j=0;j<3;j++)
+					{
+						cout<<b[i][j]<<"\t";
+
+
+					}
+				}
+		cout<<endl;
+		for(i=0;i<q;i++)
+				{cout<<endl;
+
+					for(j=0;j<3;j++)
+					{
+						cout<<d[i][j]<<"\t";
+
+
+					}
+				}
+	}
+	void trans()
+	{
+		int c1=1;
+		t[0][0]=m;
+		t[0][1]=n;
+		t[0][2]=p-1;
+		for(i=0;i<m;i++)
+						{
+			      for(j=1;j<p;j++)
+		                 {
+				if(b[j][1]==i)
+				{
+					t[c1][0]=b[j][1];
+					t[c1][1]=b[j][0];
+					t[c1][2]=b[j][2];
+					c1++;
+				}
+
+
+
+	}
+	}
+	}
+			      void dis_trans()
+			      {
+			    	  cout<<"this is transpose"<<endl;
+			    	  for(i=0;i<p;i++)
+			    	  				{cout<<endl;
+
+			    	  					for(j=0;j<3;j++)
+			    	  					{
+			    	  						cout<<t[i][j]<<"\t";
+
+
+			    	  					}
+			    	  				}
+			      }
+			      void add()
+			      {
+			    	  int temp,x,y;
+			    	  x=b[0][2];
+			    	if(b[0][0]>d[0][0])
+			    	{
+			    		e[0][0]=b[0][0];
+			    	}
+			    	else
+			    	{
+			    		e[0][0]=d[0][0];
+			    	}
+			    	if(b[0][1]>d[0][1])
+			    				    	{
+			    				    		e[0][1]=b[0][1];
+			    				    	}
+			    				    	else
+			    				    	{
+			    				    		e[0][1]=d[0][1];
+			    				    	}
+			    	e[0][2]=b[0][2]+d[0][2];
+			    	z=e[0][2];
+			    	z1=z;
+			    	for(i=1;i<=e[0][2];i++)
+			    	{
+			    		if(i<=b[0][2])
+			    		{
+			    			e[i][0]=b[i][0];
+			    			e[i][1]=b[i][1];
+			    			e[i][2]=b[i][2];
+			    		}
+			    		else
+			    		{
+			    			e[i][0]=d[i-x][0];
+			    			e[i][1]=d[i-x][1];
+			    			e[i][2]=d[i-x][2];
+			    		}
+
+			    	}
+
+			    	/*cout<<"this is the combination"<<endl;
+			    	 for(i=0;i<=z;i++)
+			    	{cout<<endl;
+
+			    	for(j=0;j<3;j++)
+			    	{
+			    	cout<<e[i][j]<<"\t";
+
+
+			        }
+			    	}*/
+
+
+
+					for(i=1;i<=z;i++)
+			    	{
+			    		for(j=i+1;j<=z;j++)
+			    		{
+			    			if(e[i][0]==e[j][0]&&e[i][1]==e[j][1])
+			    			{
+			    				x=e[i][2];
+			    				y=e[j][2];
+			    				e[i][2]=x+y;
+			    				temp=e[z][0];
+			    				e[z][0]=e[j][0];
+			    				e[j][0]=temp;
+			    				temp=e[z][1];
+			    				e[z][1]=e[j][1];
+			    				e[j][1]=temp;
+			    				temp=e[z][2];
+			    				e[z][2]=e[j][2];
+			                    e[j][2]=temp;
+			                    z--;
+			                     e[0][2]=z;
+
+			                    break;
+
+
+
+
+			    			}
+			    			 /*cout<<"this is after the "<<i<<endl;
+			    						    	  for(i=0;i<=z;i++)
+			    						    				    	  				{cout<<endl;
+
+			    						    				    	  					for(j=0;j<3;j++)
+			    						    				    	  					{
+			    						    				    	  						cout<<e[i][j]<<"\t";
+
+
+			    						    				    	  					}
+			    						    				    	  				}*/
+			    		}
+			    	}
+			      }
+			      void rearrange()
+			      {
+                 int temp,t1,t2;
+                 for(i=1;i<=z;i++)
+                 {
+                	 for(j=1;j<=z;j++)
+                 {t1=e[i][0];
+                 t2=e[j][0];
+                	 if(t1<t2)
+                	 {
+                		                               temp=e[i][0];
+                		 			    				e[i][0]=e[j][0];
+                		 			    				e[j][0]=temp;
+                		 			    				temp=e[i][1];
+                		 			    				e[i][1]=e[j][1];
+                		 			    				e[j][1]=temp;
+                		 			    				temp=e[i][2];
+                		 			    				e[i][2]=e[j][2];
+                		 			                    e[j][2]=temp;
+
+                	 }
+                 }
+
+                 }
+
+                 for(i=1;i<=z;i++)
+                                {
+                               	 for(j=1;j<=z;j++)
+                                {t1=e[i][1];
+                                t2=e[j][1];
+                               	 if(t1<t2&&e[i][0]==e[j][0])
+                               	 {
+                               		                               temp=e[i][0];
+                               		 			    				e[i][0]=e[j][0];
+                               		 			    				e[j][0]=temp;
+                               		 			    				temp=e[i][1];
+                               		 			    				e[i][1]=e[j][1];
+                               		 			    				e[j][1]=temp;
+                               		 			    				temp=e[i][2];
+                               		 			    				e[i][2]=e[j][2];
+                               		 			                    e[j][2]=temp;
+
+                               	 }
+                                }
+
+                                }
+			      }
+			      void add_out()
+			      {
+			    	  cout<<"this is the addition"<<endl;
+			    	  for(i=0;i<=z;i++)
+			    				    	  				{cout<<endl;
+
+			    				    	  					for(j=0;j<3;j++)
+			    				    	  					{
+			    				    	  						cout<<e[i][j]<<"\t";
+
+
+			    				    	  					}
+			    				    	  				}
+			    				      }
+			    void fast()
+			      {
+                   static int st[20];
+int t[20];	int ft[20][20],nz;
+nz=b[0][2];
+for(int i=1;i<=nz;i++)
+		{
+			st[b[i][1]]++;
+		}
+	t[0]=1;
+	for(int i=1; i<m;i++)
+	{
+		t[i]=t[i-1]+st[i-1];
+	}
+	//store
+	int pt;
+	for(int i=1; i<=nz; i++)
+	{
+		pt=t[b[i][1]]++;
+		ft[pt][0]=b[i][1];
+		ft[pt][1]=b[i][0];
+		ft[pt][2]=b[i][2];
+	}
+	//display
+		cout<<endl<<"Fast Transpose: "<<endl;
+		cout<<b[0][0]<<"\t"<<b[0][1]<<"\t"<<b[0][2]<<"\t"<<endl;
+		for(int i=1;i<=nz;i++)
+			{
+			cout<<ft[i][0]<<"\t"<<ft[i][1]<<"\t"<<ft[i][2]<<endl;
+			}
+			      }
+			    void disft()
+			    {
+			    	cout<<"this is fast transpose"<<endl;
+			    				    	  for(i=0;i<=al[0][2];i++)
+			    				    	  				{cout<<endl;
+
+			    				    	  					for(j=0;j<3;j++)
+			    				    	  					{
+			    				    	  						cout<<al[i][j]<<"\t";
+
+
+			    				    	  					}
+			    				    	  				}
+			    }
+};
+int main()
+{char loop;
+int e;
+	sparse a;
+
+	a.intake();
+a.convet();
+a.dis_spa();
+loop=='y';
+while(loop=='y')
+{
+	cout<<"1. transpose"<<endl;
+	cout<<"2. addition"<<endl;
+	cout<<"3. fast transpose"<<endl;
+	cin>>e;
+	switch(e)
+	{
+	case 1:
+		a.trans();
+		a.dis_trans();
+		break;
+	case 2:
+		a.add();
+		a.rearrange();
+		a.add_out();
+		break;
+	case 3:
+		a.fast();
+		break;
+	}
+	cout<<"do u want to continue(y/n)";
+	cin>>loop;
+}
+
+//a.trans();
+//a.dis_trans();
+//a.add();
+//a.rearrange();
+//a.add_out();
+//a.fast();
+//a.disft();
+}
